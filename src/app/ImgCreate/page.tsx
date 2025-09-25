@@ -6,8 +6,9 @@ import { upload } from "@vercel/blob/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
+
   const [prompt, setPrompt] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -44,14 +45,14 @@ const page = () => {
       const blobs = await response.blob();
       const ImgUrl = URL.createObjectURL(blobs);
 
-      const file = new File([blobs], "generated. png", { type: "image/png" });
+      const file = new File([blobs], "generated.png", { type: "image/png" });
       const uploaded = await upload(file.name, file, {
         access: "public",
         handleUploadUrl: "/api/upload",
       });
 
       setImageUrl(ImgUrl);
-    } catch (err) {
+    } catch (error) {
       console.log("Failed to generate image");
     } finally {
       setIsLoading(false);
@@ -75,7 +76,7 @@ const page = () => {
         Explore AI generated images
       </label>
       <div className="text-sm text-gray-600 mt-2 mb-4">
-        Describe what's on your mind. For best results, be specific
+        Describe what is on your mind. For best results, be specific
       </div>
 
       <div className="flex flex-col space-y-4">
@@ -105,4 +106,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

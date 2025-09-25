@@ -96,7 +96,7 @@ const Page = () => {
             <div>OR</div>
           </div>
           <div className="flex mt-8 place-content-around">
-            <div>Don't have an account? </div>
+            <div>Do not have an account? </div>
             <button
               onClick={goToSignUpPage}
               className=" text-blue-500 font-bold "

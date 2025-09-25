@@ -4,7 +4,7 @@ import { IconePIC } from "@/icons/iconePIC";
 import { IconeX } from "@/icons/iconeX";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
 
   const gopage = () => {
@@ -37,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
