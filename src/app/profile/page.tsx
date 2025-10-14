@@ -38,13 +38,19 @@ const Page = () => {
 
   const getMyPost = async () => {
     try {
-      const response = await fetch("http://localhost:8080/mypost", {
-        method: "GET",
-        headers: {
-          Authorization: `bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      if (!myUser?._id) return;
+
+      const response = await fetch(
+        `http://localhost:8080/mypost/${myUser._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       const data = await response.json();
       setPosts(data);
     } catch (error) {
@@ -53,8 +59,12 @@ const Page = () => {
   };
 
   useEffect(() => {
+    if (!myUser) {
+      push("/log-in");
+      return;
+    }
     getMyPost();
-  }, []);
+  }, [myUser, push]);
   return (
     <div>
       {" "}
