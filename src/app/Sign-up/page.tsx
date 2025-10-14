@@ -1,11 +1,13 @@
 "use client";
 
-import { useUser } from "@/providers/AuthProvider";
+import { decodeTokenType, useUser } from "@/providers/AuthProvider";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { IconeIG } from "@/icons/iconeIG";
+import { toast } from "sonner";
+import { jwtDecode } from "jwt-decode";
 
 type InputType = {
   email: string;
@@ -14,8 +16,8 @@ type InputType = {
 };
 
 const Page = () => {
-  const router = useRouter();
-  const { myUser, setMyUser } = useUser();
+  const { push } = useRouter();
+  const { setMyUser, setToken } = useUser();
 
   const [inputVal, setInputVal] = useState<InputType>({
     email: "",
@@ -36,9 +38,17 @@ const Page = () => {
       }),
     });
 
-    const user = await response.json();
-    localStorage.setItem("user", JSON.stringify(user));
-    setMyUser(user);
+    if (response.ok) {
+      const user = await response.json();
+      const decodedtoken: decodeTokenType = jwtDecode(user);
+      localStorage.setItem("token", user);
+      toast.success("Succsesfuly sign up...");
+      setToken(user);
+      setMyUser(decodedtoken.data);
+      push("/");
+    } else {
+      toast.error("User or Email already exists !!!");
+    }
   };
 
   const handlValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,10 +63,9 @@ const Page = () => {
       setInputVal({ ...inputVal, username: value });
     }
   };
-  console.log(inputVal);
 
   const goToLogInPage = () => {
-    router.push("/Log-in");
+    push("/log-in");
   };
   return (
     <div className="flex justify-center">
@@ -72,12 +81,14 @@ const Page = () => {
             <Input
               placeholder="Email"
               name="email"
+              type="email"
               value={inputVal.email}
               onChange={(e) => handlValue(e)}
             />
             <Input
               className="mt-3"
               placeholder="User name"
+              type="email"
               name="username"
               value={inputVal.username}
               onChange={(e) => handlValue(e)}
@@ -85,6 +96,7 @@ const Page = () => {
             <Input
               className="mt-3"
               placeholder="Password"
+              type="password"
               name="password"
               value={inputVal.password}
               onChange={(e) => handlValue(e)}

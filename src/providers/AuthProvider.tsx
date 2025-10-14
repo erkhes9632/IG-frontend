@@ -1,5 +1,7 @@
 "use client";
 
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 import {
   createContext,
   Dispatch,
@@ -10,40 +12,58 @@ import {
   useState,
 } from "react";
 
-type User = {
+export type User = {
+  followers: any;
+  following: any;
+  _id: string;
   email: string;
   password: string;
   username: string;
   bio: string | null;
   profilePicture: string;
 };
-
 type createContextType = {
   myUser: User | null;
   setMyUser: Dispatch<SetStateAction<null | User>>;
+  setToken: Dispatch<SetStateAction<null | string>>;
+  token: string | null;
+};
+
+export type decodeTokenType = {
+  data: User;
 };
 
 export const AuthCountext = createContext<createContextType | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [myUser, setMyUser] = useState<User | null>(null);
-
+  const [token, setToken] = useState<string | null>(null);
+  const { push } = useRouter();
   useEffect(() => {
-    const userItem = localStorage.getItem("user");
+    const loctoken = localStorage.getItem("token");
 
-    if (userItem) {
-      setMyUser(JSON.parse(userItem));
+    if (typeof window !== "undefined") {
+      if (loctoken) {
+        const decodedtoken: decodeTokenType = jwtDecode(loctoken);
+        setMyUser(decodedtoken.data);
+        setToken(loctoken);
+      }
+    } else {
+      push("/login");
     }
   }, []);
 
   const values = {
     myUser,
     setMyUser,
+    token,
+    setToken,
   };
   return (
     <AuthCountext.Provider value={values}>{children}</AuthCountext.Provider>
   );
 };
+
 export const useUser = () => {
   const authContext = useContext(AuthCountext);
 
