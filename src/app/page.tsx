@@ -11,6 +11,7 @@ import {
   CircleUserRound,
   Heart,
   HeartCrack,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -161,6 +162,11 @@ const Home = () => {
                 <span className="text-sm text-gray-600">
                   {post.likes.length} likes
                 </span>
+                <MessageCircle
+                  onClick={() => {
+                    push(`/comments/:${post._id}`);
+                  }}
+                />
               </div>
 
               <p className="text-sm text-gray-800">
