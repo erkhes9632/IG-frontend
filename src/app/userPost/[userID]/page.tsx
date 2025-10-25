@@ -1,18 +1,7 @@
 "use client";
-
-import { User, useUser } from "@/providers/AuthProvider";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Iconeins } from "@/icons/iconeins";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
+import { useUser } from "@/providers/AuthProvider";
 import {
   House,
   Search,
@@ -23,57 +12,57 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { Iconeins } from "@/icons/iconeins";
 
-type PostType = {
+type Post = {
   _id: string;
-  caption: string;
-  likes: string[];
   images: string[];
-  user: User;
+  caption: string;
+  likes: string;
 };
 
-const Home = () => {
-  const { myUser, token } = useUser();
+type ProfileUser = {
+  _id: string;
+  username?: string;
+  profilePicture?: string;
+  bio?: string;
+  followers?: string[];
+  following?: string[];
+};
+
+export default function OtherUserProfilePage() {
+  const { token, myUser } = useUser();
+  const params = useParams();
   const { push } = useRouter();
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [profileUser, setProfileUser] = useState<ProfileUser | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const userId = params.userID as string;
   const ID = myUser?._id as string;
 
-  const gopage2 = () => {
-    push("/create");
-  };
-  const gopage3 = () => {
-    push("/");
-  };
-  const gopage4 = () => {
-    push("/profile");
-  };
-  const gopage1 = () => {
-    push("/search");
+  const goTo = (path: string) => push(path);
+
+  const fetchUserInfo = async () => {
+    const res = await fetch(`http://localhost:8080/user/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setProfileUser(data);
   };
 
-  const getPost = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/posts", {
-        method: "GET",
-        headers: {
-          Authorization: `bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      setPosts(data);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
+  const fetchUserPosts = async () => {
+    const res = await fetch(`http://localhost:8080/userpost/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setPosts(data);
   };
 
   useEffect(() => {
-    if (!myUser) {
-      push("/log-in");
-      return;
+    if (token && userId) {
+      fetchUserInfo();
+      fetchUserPosts();
     }
-    getPost();
-  }, [myUser, push]);
+  }, [userId, token]);
 
   const postLike = async (postId: string) => {
     const res = await fetch(`http://localhost:8080/toggle-like/${postId}`, {
@@ -84,7 +73,7 @@ const Home = () => {
     });
 
     if (res.ok) {
-      await getPost();
+      await fetchUserPosts();
     }
   };
 
@@ -101,35 +90,18 @@ const Home = () => {
     );
     if (res.ok) {
       toast.success("success");
-      await getPost();
+      await fetchUserPosts(), fetchUserInfo;
     } else {
       toast.error("you failed");
-      await getPost();
+      await fetchUserPosts(), fetchUserInfo;
     }
   };
 
   return (
     <div className="max-w-md mx-auto p-2 bg-gray-50 min-h-screen">
-      <div className="pl-3 fixed top-0 left-0 right-0 h-14 bg-white border-b border-gray-200 flex items-center gap-x-6 shadow z-50">
-        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 animate-pulse">
-          WELCOME TO
-        </h1>
-        <span className="text-3xl text-yellow-500">
-          <Iconeins />
-        </span>
+      <div className="pl-3 fixed top-0 left-0 right-0 h-14 bg-white border-b border-gray-200 flex items-center shadow z-50">
+        <Iconeins />
       </div>
-
-      {/* <Carousel className="w-full max-w-xs">
-        <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">helo</div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel> */}
 
       <div className="space-y-6 mt-16 mb-20">
         {posts.length === 0 && (
@@ -145,29 +117,24 @@ const Home = () => {
               <div className="w-10 h-10 rounded-full bg-gray-300">
                 <img
                   className="w-10 h-10 rounded-full bg-gray-300"
-                  src={post.user.profilePicture}
+                  src={profileUser?.profilePicture}
                 />
               </div>
 
-              <span
-                onClick={() => {
-                  push(`/users/${post.user._id}`);
-                }}
-                className="text-sm font-medium text-gray-800"
-              >
-                {post.user.username}
+              <span className="text-sm font-medium text-gray-800">
+                {profileUser?.username}
               </span>
               <div className="absolute top-2 right-2">
-                {post.user.followers.includes(ID) ? (
+                {profileUser?.followers?.includes(ID) ? (
                   <button
-                    onClick={() => followUser(post.user._id)}
+                    onClick={() => followUser(profileUser._id)}
                     className="text-xs px-3 py-1 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition"
                   >
                     Unfollow
                   </button>
                 ) : (
                   <button
-                    onClick={() => followUser(post.user._id)}
+                    onClick={() => followUser(profileUser!._id)}
                     className="text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
                   >
                     Follow
@@ -209,37 +176,34 @@ const Home = () => {
               </div>
 
               <p className="text-sm text-gray-800">
-                <span className="font-semibold mr-1">{post.user.username}</span>
+                <span className="font-semibold mr-1">
+                  {profileUser?.username}
+                </span>
                 {post.caption}
               </p>
             </div>
           </div>
         ))}
       </div>
-
-      <div className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
+      {/* Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-300 flex justify-around items-center shadow-lg z-50">
         <House
-          onClick={gopage3}
-          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
+          onClick={() => goTo("/")}
+          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
         />
         <Search
-          onClick={gopage1}
-          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
+          onClick={() => goTo("/search")}
+          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
         />
         <SquarePlus
-          onClick={gopage2}
-          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
+          onClick={() => goTo("/create")}
+          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
         />
         <CircleUserRound
-          onClick={gopage4}
-          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
+          onClick={() => goTo("/profile")}
+          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
         />
-      </div>
+      </nav>
     </div>
   );
-};
-
-export default Home;
-function getPost() {
-  throw new Error("Function not implemented.");
 }

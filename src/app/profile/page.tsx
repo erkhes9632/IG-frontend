@@ -21,6 +21,7 @@ type PostType = {
 const Page = () => {
   const { myUser, token } = useUser();
   const [posts, setPosts] = useState<PostType[]>([]);
+  const userID = myUser?._id;
 
   const { push } = useRouter();
   const gopage2 = () => {
@@ -65,84 +66,107 @@ const Page = () => {
     }
     getMyPost();
   }, [myUser, push]);
+
   return (
-    <div>
-      {" "}
-      <div className="flex items-center py-5">
-        <img
-          src={myUser?.profilePicture}
-          alt="Profile"
-          className="w-24 h-24 rounded-full mr-5"
-        />
-        <div>
-          <h2 className="text-2xl font-semibold">{myUser?.username}</h2>
-          <button className="mt-2 px-4 py-1 border border-gray-300 rounded hover:bg-gray-100">
-            Edit Profile
-          </button>
-        </div>
-      </div>
-      <div className="flex justify-around border-t border-b border-gray-300 py-4 mb-6 text-center">
-        <div>
-          <div>0</div> posts
-        </div>
-        <div>
-          <div>{myUser?.followers.length}</div> followers
-        </div>
-        <div>
-          <div>{myUser?.following.length}</div> following
-        </div>
-      </div>
-      <div className="space-y-6 mt-16 mb-20">
-        {posts.length === 0 && (
-          <div>
-            <div className="max-w-md mx-auto font-sans p-4">
+    <div className="min-h-screen flex flex-col  bg-gradient-to-b from-blue-50 via-indigo-50 to-purple-100">
+      <div className="max-w-4xl mx-auto px-6 pb-24 pt-8 animate-fadeIn">
+        {/* Profile Section */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start py-8 gap-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-indigo-200 transition-all hover:shadow-xl hover:bg-white/90">
+          <img
+            src={myUser?.profilePicture}
+            className="w-32 h-32 rounded-full object-cover ring-4 ring-indigo-400 shadow-md hover:scale-105 transition-transform duration-300"
+          />
+          <div className="flex-1 text-center sm:text-left">
+            <h2 className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              {myUser?.username}
+            </h2>
+            <button className="mt-4 px-6 py-2 border border-indigo-500 text-indigo-600 font-semibold rounded-md hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white shadow-sm transition-all duration-300">
+              Edit Profile
+            </button>
+
+            {/* Stats */}
+            <div className="flex justify-center sm:justify-start gap-12 mt-6 text-gray-700 font-medium">
               <div className="text-center">
-                <div className="flex justify-center">
-                  <Images />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Share Photos</h3>
-                <p className="mb-4">
-                  When you share photos, they will appear on your profile.
-                </p>
-                <a href="#" className="text-blue-500 hover:underline">
-                  Share your first photo
-                </a>
+                <span className="font-bold text-indigo-700">
+                  {posts.length}
+                </span>
+                <p className="text-sm">Posts</p>
+              </div>
+              <div className="text-center">
+                <span className="font-bold text-indigo-700">
+                  {myUser?.followers.length}
+                </span>
+                <p className="text-sm">Followers</p>
+              </div>
+              <div className="text-center">
+                <span className="font-bold text-indigo-700">
+                  {myUser?.following.length}
+                </span>
+                <p className="text-sm">Following</p>
               </div>
             </div>
           </div>
-        )}
+        </div>
 
-        {posts.map((post, index) => (
-          <div
-            key={index}
-            className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition duration-300 ease-in-out hover:shadow-lg"
-          >
-            <div>
-              <img
-                src={post.images[0]}
-                alt="Post"
-                className="w-full object-cover  transition-transform duration-200 hover:scale-[1.01]"
-              />
+        {/* Posts Section */}
+        {posts.length === 0 ? (
+          <div className="text-center py-24 text-indigo-400 select-none">
+            <div className="flex justify-center mb-6">
+              <Images className="w-16 h-16 text-indigo-300 animate-pulse" />
             </div>
+            <h3 className="text-2xl font-semibold mb-2 text-indigo-700">
+              Share Photos
+            </h3>
+            <p className="mb-5 text-sm max-w-xs mx-auto text-gray-600">
+              When you share photos, they will appear on your profile.
+            </p>
+            <button
+              onClick={gopage2}
+              className="inline-block px-6 py-2 text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-md hover:from-indigo-700 hover:to-purple-700 transition font-medium shadow-md"
+            >
+              Share your first photo
+            </button>
           </div>
-        ))}
+        ) : (
+          <div className="grid grid-cols-3 gap-2 mt-8">
+            {posts.map((post, index) => (
+              <div
+                key={post._id}
+                className="aspect-square overflow-hidden rounded-xl relative cursor-pointer group shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                onClick={() => push(`/userPost/${userID}`)}
+                title={post.caption}
+              >
+                <img
+                  src={post.images[0]}
+                  alt={`Post ${index}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-lg font-semibold">
+                  ❤️ {post.likes.length}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      <div className="fixed bottom-0 left-0 right-0 h-14 bg-white border-t border-gray-200 flex justify-around items-center shadow z-50">
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
         <House
           onClick={gopage3}
-          className="w-7 h-7 text-gray-700 cursor-pointer hover:text-blue-500 transition"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <Search
           onClick={gopage1}
-          className="w-7 h-7 text-gray-700 cursor-pointer hover:text-blue-500 transition"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <SquarePlus
           onClick={gopage2}
-          className="w-7 h-7 text-gray-700 cursor-pointer hover:text-blue-500 transition"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <CircleUserRound
           onClick={gopage4}
-          className="w-7 h-7 text-gray-700 cursor-pointer hover:text-blue-500 transition"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
       </div>
     </div>

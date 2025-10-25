@@ -94,71 +94,84 @@ const Page = () => {
   };
 
   return (
-    <div className="p-2 max-w-md mx-auto relative bg-white rounded-xl ">
-      <div className="flex items-center justify-center border-b border-gray-200 pb-3 relative">
-        <button
-          onClick={gopage}
-          className="absolute left-4 p-2 rounded-full hover:bg-gray-100 transition"
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-200 p-4">
+      <div className="p-6 w-full max-w-md mx-auto relative bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-indigo-100 animate-fadeIn">
+        {/* Header */}
+        <div className="flex items-center justify-center border-b border-indigo-100 pb-3 relative">
+          <button
+            onClick={gopage}
+            className="absolute left-4 p-2 rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition"
+          >
+            <div className="w-5 h-5">
+              <IconeX />
+            </div>
+          </button>
+          <div className="text-center text-lg font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent tracking-wide">
+            New Photo Post
+          </div>
+        </div>
+
+        {/* AI Prompt Section */}
+        <label
+          htmlFor="prompt"
+          className="block text-lg font-semibold mt-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
         >
-          <IconeX />
-        </button>
+          Explore AI Generated Images
+        </label>
+        <p className="text-sm text-gray-500 mb-3">
+          Describe what’s on your mind — be creative for the best results!
+        </p>
 
-        <div className="text-center text-lg font-semibold text-gray-800">
-          New Photo Post
-        </div>
-      </div>
-
-      <label
-        htmlFor="prompt"
-        className="block text-lg font-semibold mt-6 text-gray-800"
-      >
-        Explore AI Generated Images
-      </label>
-      <p className="text-sm text-gray-500 mb-3">
-        Describe what is on your mind. Be as specific as possible for best
-        results.
-      </p>
-
-      <textarea
-        id="prompt"
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        className="w-full h-28 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none"
-        placeholder="A person walking in fog like Blade Runner 2049"
-      />
-
-      <Button
-        className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
-        onClick={generateImage}
-        disabled={isLoading}
-      >
-        {isLoading ? "Generating..." : "Generate"}
-      </Button>
-
-      {imageUrl && (
-        <div className="mt-6">
-          <p className="text-sm text-gray-700 mb-2 font-medium">
-            Generated Image:
-          </p>
-          <img src={imageUrl} alt="Generated" />
-        </div>
-      )}
-
-      <div className="mt-6">
-        <Input
-          placeholder="Write your caption..."
-          onChange={(e) => setCaptionVal(e.target.value)}
-          value={captoinVal}
-          className="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+        <textarea
+          id="prompt"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          className="w-full h-28 p-4 border border-indigo-200 rounded-md bg-white/70 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm resize-none shadow-sm transition"
+          placeholder="A person walking in fog like Blade Runner 2049..."
         />
-      </div>
 
-      <Button
-        onClick={posting}
-        className="mt-4 bg-blue-500 hover:bg-blue-600 text-white w-full py-2 rounded-md"
-      >
-        Create Post
-      </Button>
+        <Button
+          className="w-full mt-4 py-2 rounded-md text-white font-semibold bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 hover:from-indigo-700 hover:via-purple-700 hover:to-blue-700 shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={generateImage}
+          disabled={isLoading}
+        >
+          {isLoading ? "Generating..." : "Generate"}
+        </Button>
+
+        {/* Generated Image */}
+        {imageUrl && (
+          <div className="mt-6">
+            <p className="text-sm text-indigo-700 mb-2 font-medium">
+              Generated Image:
+            </p>
+            <div className="overflow-hidden rounded-xl border border-indigo-100 shadow-md">
+              <img
+                src={imageUrl}
+                alt="Generated"
+                className="w-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Caption Input */}
+        <div className="mt-6">
+          <Input
+            placeholder="Write your caption..."
+            onChange={(e) => setCaptionVal(e.target.value)}
+            value={captoinVal}
+            className="w-full border border-indigo-200 p-3 rounded-md bg-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm shadow-sm transition"
+          />
+        </div>
+
+        {/* Create Post Button */}
+        <Button
+          onClick={posting}
+          className="mt-4 w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-md hover:shadow-lg transition-all"
+        >
+          Create Post
+        </Button>
+      </div>
     </div>
   );
 };

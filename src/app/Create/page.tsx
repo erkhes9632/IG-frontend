@@ -30,12 +30,12 @@ const Page = () => {
     <div className="p-2 max-w-md mx-auto relative bg-white rounded-xl ">
       <button
         onClick={gopage3}
-        className="absolute top-4 left-4 p-2 rounded-full hover:bg-gray-100 transition"
+        className="absolute top-4 left-4 p-2 rounded-full hover:bg-indigo-100 hover:text-indigo-700 transition"
       >
         <IconeX />
       </button>
 
-      <div className="text-center text-lg font-semibold text-gray-800 border-b border-gray-200 pb-3 mt-4">
+      <div className="text-center text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 border-b border-indigo-200 pb-3 mt-4">
         New Photo Post
       </div>
 
@@ -44,33 +44,36 @@ const Page = () => {
           <IconePIC />
         </div>
 
-        <Button className="bg-blue-500 hover:bg-blue-600 text-white w-[160px] py-2 rounded-md text-sm">
+        <Button
+          onClick={() => router.push("/picUploud")}
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 hover:from-indigo-700 hover:via-purple-700 hover:to-blue-700 text-white w-[160px] py-2 rounded-md text-sm shadow-md transition-all"
+        >
           Photo Library
         </Button>
 
         <button
           onClick={gopage}
-          className="text-blue-500 text-sm font-medium hover:underline"
+          className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent text-sm font-medium hover:underline"
         >
           Generate with AI
         </button>
       </div>
-      <div className="fixed bottom-0 left-0 right-0 h-14 bg-white border-t border-gray-300 flex justify-around items-center shadow-md z-50">
+      <div className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
         <House
           onClick={gopage3}
-          className="w-7 h-7 text-gray-800 cursor-pointer hover:text-blue-500"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <Search
           onClick={gopage1}
-          className="w-7 h-7 text-gray-800 cursor-pointer hover:text-blue-500"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <SquarePlus
           onClick={gopage2}
-          className="w-7 h-7 text-gray-800 cursor-pointer hover:text-blue-500"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <CircleUserRound
           onClick={gopage4}
-          className="w-7 h-7 text-gray-800 cursor-pointer hover:text-blue-500"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
       </div>
     </div>

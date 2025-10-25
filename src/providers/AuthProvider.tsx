@@ -13,8 +13,8 @@ import {
 } from "react";
 
 export type User = {
-  followers: any;
-  following: any;
+  followers: string;
+  following: string;
   _id: string;
   email: string;
   password: string;
