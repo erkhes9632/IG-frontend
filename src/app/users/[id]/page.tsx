@@ -80,7 +80,6 @@ export default function OtherUserProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 pb-24">
-      {/* Profile Header */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start py-8 gap-6 bg-white rounded-lg shadow-md border border-gray-200 mt-6">
         {profileUser?.profilePicture ? (
           <img
@@ -117,7 +116,6 @@ export default function OtherUserProfilePage() {
             )}
           </div>
 
-          {/* Stats */}
           <div className="flex justify-center sm:justify-start gap-12 mt-6 text-sm sm:text-base text-gray-700 font-medium">
             <div>
               <span className="font-bold text-gray-900">{posts.length}</span>{" "}
@@ -138,7 +136,7 @@ export default function OtherUserProfilePage() {
           </div>
         </div>
       </div>
-      {/* Posts Section */}
+
       {posts.length === 0 ? (
         <div className="text-center py-24 text-gray-400 select-none">
           <div className="flex justify-center mb-6">
@@ -183,23 +181,23 @@ export default function OtherUserProfilePage() {
           )}
         </div>
       )}
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-300 flex justify-around items-center shadow-lg z-50">
+
+      <nav className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
         <House
           onClick={() => goTo("/")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <Search
           onClick={() => goTo("/search")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <SquarePlus
           onClick={() => goTo("/create")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <CircleUserRound
           onClick={() => goTo("/profile")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
       </nav>
     </div>

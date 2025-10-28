@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
@@ -72,7 +73,7 @@ export default function PostCommentsPage() {
           className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md px-3 py-1 transition"
           onClick={() => router.push("/")}
         >
-          ← Back
+          Back
         </Button>
       </div>
 

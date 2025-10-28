@@ -13,7 +13,7 @@ const Page = () => {
   const { push } = useRouter();
 
   const [prompt, setPrompt] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
   const [captoinVal, setCaptionVal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { myUser, token } = useUser();
@@ -23,7 +23,6 @@ const Page = () => {
   const generateImage = async () => {
     if (!prompt.trim()) return;
     setIsLoading(true);
-    setImageUrl("");
 
     try {
       const headers = {
@@ -59,7 +58,9 @@ const Page = () => {
         handleUploadUrl: "/api/upload",
       });
 
-      setImageUrl(uploaded.url);
+      setImageUrl((prev) => {
+        return [...prev, uploaded.url];
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -68,7 +69,7 @@ const Page = () => {
   };
 
   const posting = async () => {
-    console.log(myUser);
+    console.log(imageUrl);
     const response = await fetch(`http://localhost:8080/posting`, {
       method: "POST",
       headers: {
@@ -77,7 +78,7 @@ const Page = () => {
       },
       body: JSON.stringify({
         user: myUser?._id,
-        images: [imageUrl],
+        images: imageUrl,
         caption: captoinVal,
       }),
     });
@@ -96,7 +97,6 @@ const Page = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-100 to-purple-200 p-4">
       <div className="p-6 w-full max-w-md mx-auto relative bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-indigo-100 animate-fadeIn">
-        {/* Header */}
         <div className="flex items-center justify-center border-b border-indigo-100 pb-3 relative">
           <button
             onClick={gopage}
@@ -111,7 +111,6 @@ const Page = () => {
           </div>
         </div>
 
-        {/* AI Prompt Section */}
         <label
           htmlFor="prompt"
           className="block text-lg font-semibold mt-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
@@ -138,23 +137,19 @@ const Page = () => {
           {isLoading ? "Generating..." : "Generate"}
         </Button>
 
-        {/* Generated Image */}
         {imageUrl && (
           <div className="mt-6">
             <p className="text-sm text-indigo-700 mb-2 font-medium">
               Generated Image:
             </p>
             <div className="overflow-hidden rounded-xl border border-indigo-100 shadow-md">
-              <img
-                src={imageUrl}
-                alt="Generated"
-                className="w-full object-cover hover:scale-105 transition-transform duration-300"
-              />
+              {imageUrl.map((url) => {
+                return <img src={url} key={url} alt="url" />;
+              })}
             </div>
           </div>
         )}
 
-        {/* Caption Input */}
         <div className="mt-6">
           <Input
             placeholder="Write your caption..."
@@ -164,7 +159,6 @@ const Page = () => {
           />
         </div>
 
-        {/* Create Post Button */}
         <Button
           onClick={posting}
           className="mt-4 w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-md hover:shadow-lg transition-all"

@@ -70,7 +70,6 @@ const Page = () => {
   return (
     <div className="min-h-screen flex flex-col  bg-gradient-to-b from-blue-50 via-indigo-50 to-purple-100">
       <div className="max-w-4xl mx-auto px-6 pb-24 pt-8 animate-fadeIn">
-        {/* Profile Section */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start py-8 gap-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-indigo-200 transition-all hover:shadow-xl hover:bg-white/90">
           <img
             src={myUser?.profilePicture}
@@ -84,7 +83,6 @@ const Page = () => {
               Edit Profile
             </button>
 
-            {/* Stats */}
             <div className="flex justify-center sm:justify-start gap-12 mt-6 text-gray-700 font-medium">
               <div className="text-center">
                 <span className="font-bold text-indigo-700">
@@ -108,7 +106,6 @@ const Page = () => {
           </div>
         </div>
 
-        {/* Posts Section */}
         {posts.length === 0 ? (
           <div className="text-center py-24 text-indigo-400 select-none">
             <div className="flex justify-center mb-6">
@@ -142,7 +139,7 @@ const Page = () => {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-white text-lg font-semibold">
-                  ❤️ {post.likes.length}
+                  {post.likes.length}
                 </div>
               </div>
             ))}
@@ -150,7 +147,6 @@ const Page = () => {
         )}
       </div>
 
-      {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
         <House
           onClick={gopage3}

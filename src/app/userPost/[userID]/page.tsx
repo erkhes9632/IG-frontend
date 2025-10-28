@@ -13,6 +13,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Iconeins } from "@/icons/iconeins";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 type Post = {
   _id: string;
@@ -143,13 +150,22 @@ export default function OtherUserProfilePage() {
               </div>
             </div>
 
-            <div>
-              <img
-                src={post.images[0]}
-                alt="Post"
-                className="w-full object-cover  transition-transform duration-200 hover:scale-[1.01]"
-              />
-            </div>
+            <Carousel className="w-full max-w-3xl mx-auto relative rounded-xl overflow-hidden shadow-lg">
+              <CarouselContent>
+                {post.images.map((postImage, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="flex justify-center items-center"
+                  >
+                    <img
+                      src={postImage}
+                      alt={`Post image ${index + 1}`}
+                      className="w-full h-[400px] object-cover rounded-xl transition-transform duration-500 hover:scale-105"
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
 
             <div className="px-4 py-3 space-y-2">
               <div className="flex items-center gap-2">
@@ -185,23 +201,23 @@ export default function OtherUserProfilePage() {
           </div>
         ))}
       </div>
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-300 flex justify-around items-center shadow-lg z-50">
+
+      <nav className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
         <House
           onClick={() => goTo("/")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <Search
           onClick={() => goTo("/search")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <SquarePlus
           onClick={() => goTo("/create")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <CircleUserRound
           onClick={() => goTo("/profile")}
-          className="w-7 h-7 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
+          className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
       </nav>
     </div>

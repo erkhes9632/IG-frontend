@@ -4,7 +4,6 @@ import { User, useUser } from "@/providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Iconeins } from "@/icons/iconeins";
-
 import {
   Carousel,
   CarouselContent,
@@ -38,25 +37,17 @@ const Home = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const ID = myUser?._id as string;
 
-  const gopage2 = () => {
-    push("/create");
-  };
-  const gopage3 = () => {
-    push("/");
-  };
-  const gopage4 = () => {
-    push("/profile");
-  };
-  const gopage1 = () => {
-    push("/search");
-  };
+  const gopage2 = () => push("/create");
+  const gopage3 = () => push("/");
+  const gopage4 = () => push("/profile");
+  const gopage1 = () => push("/search");
 
   const getPost = async () => {
     try {
       const response = await fetch("http://localhost:8080/posts", {
         method: "GET",
         headers: {
-          Authorization: `bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
@@ -78,14 +69,9 @@ const Home = () => {
   const postLike = async (postId: string) => {
     const res = await fetch(`http://localhost:8080/toggle-like/${postId}`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
-
-    if (res.ok) {
-      await getPost();
-    }
+    if (res.ok) await getPost();
   };
 
   const followUser = async (followedUserId: string) => {
@@ -100,11 +86,10 @@ const Home = () => {
       }
     );
     if (res.ok) {
-      toast.success("success");
+      toast.success("Success");
       await getPost();
     } else {
-      toast.error("you failed");
-      await getPost();
+      toast.error("Failed");
     }
   };
 
@@ -119,18 +104,6 @@ const Home = () => {
         </span>
       </div>
 
-      {/* <Carousel className="w-full max-w-xs">
-        <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">helo</div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel> */}
-
       <div className="space-y-6 mt-16 mb-20">
         {posts.length === 0 && (
           <p className="text-center text-gray-500">No posts available</p>
@@ -141,22 +114,21 @@ const Home = () => {
             key={index}
             className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition duration-300 ease-in-out hover:shadow-lg"
           >
+            {/* USER HEADER */}
             <div className="flex items-center relative gap-3 px-4 py-3">
-              <div className="w-10 h-10 rounded-full bg-gray-300">
-                <img
-                  className="w-10 h-10 rounded-full bg-gray-300"
-                  src={post.user.profilePicture}
-                />
-              </div>
-
+              <img
+                className="w-10 h-10 rounded-full bg-gray-300 object-cover"
+                src={
+                  post.user.profilePicture || "https://via.placeholder.com/40"
+                }
+              />
               <span
-                onClick={() => {
-                  push(`/users/${post.user._id}`);
-                }}
-                className="text-sm font-medium text-gray-800"
+                onClick={() => push(`/users/${post.user._id}`)}
+                className="text-sm font-medium text-gray-800 cursor-pointer hover:underline"
               >
                 {post.user.username}
               </span>
+
               <div className="absolute top-2 right-2">
                 {post.user.followers.includes(ID) ? (
                   <button
@@ -176,12 +148,27 @@ const Home = () => {
               </div>
             </div>
 
-            <div>
-              <img
-                src={post.images[0]}
-                alt="Post"
-                className="w-full object-cover  transition-transform duration-200 hover:scale-[1.01]"
-              />
+            <div className="relative">
+              <Carousel className="w-full max-w-3xl mx-auto relative rounded-xl overflow-hidden shadow-lg">
+                <CarouselContent>
+                  {post.images.map((img, i) => (
+                    <CarouselItem key={i}>
+                      <img
+                        src={img}
+                        alt={`Post image ${i + 1}`}
+                        className="w-full h-[400px] object-cover rounded-xl transition-transform duration-500 hover:scale-105"
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+
+                {post.images.length > 1 && (
+                  <>
+                    <CarouselPrevious className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full p-1" />
+                    <CarouselNext className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full p-1" />
+                  </>
+                )}
+              </Carousel>
             </div>
 
             <div className="px-4 py-3 space-y-2">
@@ -190,7 +177,7 @@ const Home = () => {
                   onClick={() => postLike(post._id)}
                   className="hover:scale-110 transition-transform duration-150"
                 >
-                  {post.likes.includes(ID!) ? (
+                  {post.likes.includes(ID) ? (
                     <Heart color="red" fill="red" />
                   ) : (
                     <HeartCrack />
@@ -200,9 +187,8 @@ const Home = () => {
                   {post.likes.length} likes
                 </span>
                 <div
-                  onClick={() => {
-                    push(`/comments/${post._id}`);
-                  }}
+                  onClick={() => push(`/comments/${post._id}`)}
+                  className="cursor-pointer"
                 >
                   <MessageCircle />
                 </div>
@@ -240,6 +226,3 @@ const Home = () => {
 };
 
 export default Home;
-function getPost() {
-  throw new Error("Function not implemented.");
-}

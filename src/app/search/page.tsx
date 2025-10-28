@@ -68,7 +68,6 @@ const Page = () => {
         </div>
       </div>
 
-      {/* User List */}
       <div className="flex-grow overflow-auto p-4 bg-gradient-to-b from-indigo-100 via-blue-50 to-purple-100 scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-indigo-100">
         {user.length > 0 ? (
           <div className="grid grid-cols-1 gap-3 animate-fadeIn">
@@ -98,7 +97,6 @@ const Page = () => {
         )}
       </div>
 
-      {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 border-t border-indigo-300 flex justify-around items-center shadow-lg z-50 text-white">
         <House
           onClick={gopage3}
