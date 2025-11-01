@@ -23,19 +23,16 @@ const Page = () => {
   });
 
   const LOGDOLT = async (item: InputType) => {
-    const response = await fetch(
-      "https://ig-backend-mehf.onrender.com/log-in",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: item.email,
-          password: item.password,
-        }),
-      }
-    );
+    const response = await fetch(`${process.env.backendUrl}/log-in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: item.email,
+        password: item.password,
+      }),
+    });
 
     if (!response.ok) {
       toast.error("ERROR: PASSWORD OR EMAIL IS INCORRECT !!");
@@ -116,4 +113,5 @@ const Page = () => {
     </div>
   );
 };
+
 export default Page;
