@@ -148,14 +148,14 @@ const Home = () => {
             </div>
 
             <div className="relative">
-              <Carousel className="w-full max-w-3xl mx-auto relative rounded-xl overflow-hidden shadow-lg">
+              <Carousel className="w-full max-w-3xl mx-auto relative  overflow-hidden shadow-lg">
                 <CarouselContent>
                   {post.images.map((img, i) => (
                     <CarouselItem key={i}>
                       <img
                         src={img}
                         alt={`Post image ${i + 1}`}
-                        className="w-full h-[400px] object-cover rounded-xl transition-transform duration-500"
+                        className="w-full  "
                       />
                     </CarouselItem>
                   ))}

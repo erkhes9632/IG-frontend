@@ -150,22 +150,28 @@ export default function OtherUserProfilePage() {
               </div>
             </div>
 
-            <Carousel className="w-full max-w-3xl mx-auto relative rounded-xl overflow-hidden shadow-lg">
-              <CarouselContent>
-                {post.images.map((postImage, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="flex justify-center items-center"
-                  >
-                    <img
-                      src={postImage}
-                      alt={`Post image ${index + 1}`}
-                      className="w-full h-[400px] object-cover rounded-xl transition-transform duration-500 hover:scale-105"
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+            <div className="relative">
+              <Carousel className="w-full max-w-3xl mx-auto relative  overflow-hidden shadow-lg">
+                <CarouselContent>
+                  {post.images.map((img, i) => (
+                    <CarouselItem key={i}>
+                      <img
+                        src={img}
+                        alt={`Post image ${i + 1}`}
+                        className="w-full  "
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+
+                {post.images.length > 1 && (
+                  <>
+                    <CarouselPrevious className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full p-1" />
+                    <CarouselNext className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full p-1" />
+                  </>
+                )}
+              </Carousel>
+            </div>
 
             <div className="px-4 py-3 space-y-2">
               <div className="flex items-center gap-2">
