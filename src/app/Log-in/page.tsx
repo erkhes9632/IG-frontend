@@ -25,7 +25,7 @@ const Page = () => {
 
   const LOGDOLT = async (item: InputType) => {
     const response = await fetch(
-      `https://ig-backend-mehf.onrender.com/log-in`,
+      "https://ig-backend-mehf.onrender.com/log-in",
       {
         method: "POST",
         headers: {
