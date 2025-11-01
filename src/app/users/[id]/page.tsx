@@ -32,7 +32,7 @@ export default function OtherUserProfilePage() {
   const goTo = (path: string) => push(path);
 
   const fetchUserInfo = async () => {
-    const res = await fetch(`http://localhost:8080/user/${userId}`, {
+    const res = await fetch(`backendUrl/user/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -40,7 +40,7 @@ export default function OtherUserProfilePage() {
   };
 
   const fetchUserPosts = async () => {
-    const res = await fetch(`http://localhost:8080/userpost/${userId}`, {
+    const res = await fetch(`backendUrl/userpost/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -56,16 +56,13 @@ export default function OtherUserProfilePage() {
 
   const followUser = async () => {
     if (!profileUser) return;
-    const res = await fetch(
-      `http://localhost:8080/follow-toggle/${profileUser._id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`backendUrl/follow-toggle/${profileUser._id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
     if (res.ok) {
       toast.success("Action successful!");

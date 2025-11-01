@@ -44,7 +44,7 @@ const Home = () => {
 
   const getPost = async () => {
     try {
-      const response = await fetch("http://localhost:8080/posts", {
+      const response = await fetch("backendUrl/posts", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const Home = () => {
   }, [myUser, push]);
 
   const postLike = async (postId: string) => {
-    const res = await fetch(`http://localhost:8080/toggle-like/${postId}`, {
+    const res = await fetch(`backendUrl/toggle-like/${postId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -75,16 +75,13 @@ const Home = () => {
   };
 
   const followUser = async (followedUserId: string) => {
-    const res = await fetch(
-      `http://localhost:8080/follow-toggle/${followedUserId}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`backendUrl/follow-toggle/${followedUserId}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
     if (res.ok) {
       toast.success("Success");
       await getPost();
@@ -114,7 +111,6 @@ const Home = () => {
             key={index}
             className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition duration-300 ease-in-out hover:shadow-lg"
           >
-            {/* USER HEADER */}
             <div className="flex items-center relative gap-3 px-4 py-3">
               <img
                 className="w-10 h-10 rounded-full bg-gray-300 object-cover"

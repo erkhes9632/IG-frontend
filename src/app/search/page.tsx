@@ -31,7 +31,7 @@ const Page = () => {
   };
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:8080/users/${searchVal}`, {
+    const response = await fetch(`backendUrl/users/${searchVal}`, {
       headers: {
         authorization: `Bearer ${token}`,
       },

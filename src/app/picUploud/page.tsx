@@ -58,7 +58,7 @@ const Page = () => {
       return;
     }
 
-    const response = await fetch(`http://localhost:8080/posting`, {
+    const response = await fetch(`backendUrl/posting`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -24,7 +24,7 @@ const Page = () => {
   });
 
   const LOGDOLT = async (item: InputType) => {
-    const response = await fetch("http://localhost:8080/log-in", {
+    const response = await fetch("backendUrl/log-in", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
