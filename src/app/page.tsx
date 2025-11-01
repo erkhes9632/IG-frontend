@@ -37,7 +37,7 @@ const Home = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const ID = myUser?._id as string;
 
-  const gopage2 = () => push("/create");
+  const gopage2 = () => push("/Create");
   const gopage3 = () => push("/");
   const gopage4 = () => push("/profile");
   const gopage1 = () => push("/search");
@@ -60,7 +60,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!myUser) {
-      push("/log-in");
+      push("/Log-in");
       return;
     }
     getPost();

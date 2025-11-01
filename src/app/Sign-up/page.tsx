@@ -65,7 +65,7 @@ const Page = () => {
   };
 
   const goToLogInPage = () => {
-    push("/log-in");
+    push("/Log-in");
   };
   return (
     <div className="flex justify-center">

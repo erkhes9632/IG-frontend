@@ -212,7 +212,7 @@ export default function OtherUserProfilePage() {
           className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <SquarePlus
-          onClick={() => goTo("/create")}
+          onClick={() => goTo("/Create")}
           className="w-7 h-7 cursor-pointer hover:text-yellow-300 hover:scale-110 transition-transform duration-200"
         />
         <CircleUserRound

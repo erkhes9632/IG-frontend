@@ -25,7 +25,7 @@ const Page = () => {
 
   const { push } = useRouter();
   const gopage2 = () => {
-    push("/create");
+    push("/Create");
   };
   const gopage3 = () => {
     push("/");
@@ -61,7 +61,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!myUser) {
-      push("/log-in");
+      push("/Log-in");
       return;
     }
     getMyPost();

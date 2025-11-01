@@ -48,7 +48,7 @@ const Page = () => {
   };
 
   const goToSignUpPage = () => {
-    push("/sign-up");
+    push("/Sign-up");
   };
 
   const handlValue = (e: ChangeEvent<HTMLInputElement>) => {

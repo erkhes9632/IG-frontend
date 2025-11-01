@@ -84,7 +84,7 @@ const Page = () => {
       <div className="p-5 w-full max-w-md mx-auto relative bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-indigo-100">
         <div className="flex items-center justify-center border-b border-indigo-100 pb-3 relative">
           <button
-            onClick={() => push("/create")}
+            onClick={() => push("/Create")}
             className="absolute left-4 p-2 rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition"
           >
             <div className="w-5 h-5">

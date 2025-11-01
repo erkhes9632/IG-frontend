@@ -10,7 +10,7 @@ const Page = () => {
 
   const { push } = useRouter();
   const gopage2 = () => {
-    push("/create");
+    push("/Create");
   };
   const gopage3 = () => {
     push("/");
@@ -23,7 +23,7 @@ const Page = () => {
   };
 
   const gopage = () => {
-    router.push("/imgCreate");
+    router.push("/ImgCreate");
   };
 
   return (

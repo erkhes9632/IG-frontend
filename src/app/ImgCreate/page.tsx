@@ -91,7 +91,7 @@ const Page = () => {
   };
 
   const gopage = () => {
-    push("/create");
+    push("/Create");
   };
 
   return (
