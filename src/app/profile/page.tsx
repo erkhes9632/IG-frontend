@@ -41,13 +41,16 @@ const Page = () => {
     try {
       if (!myUser?._id) return;
 
-      const response = await fetch(`backendUrl/mypost/${myUser._id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.backendUrl}/mypost/${myUser._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
       setPosts(data);

@@ -70,7 +70,7 @@ const Page = () => {
 
   const posting = async () => {
     console.log(imageUrl);
-    const response = await fetch(`backendUrl/posting`, {
+    const response = await fetch(`${process.env.backendUrl}/posting`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

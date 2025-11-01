@@ -44,7 +44,7 @@ const Home = () => {
 
   const getPost = async () => {
     try {
-      const response = await fetch("backendUrl/posts", {
+      const response = await fetch(`${process.env.backendUrl}/posts`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const Home = () => {
   }, [myUser, push]);
 
   const postLike = async (postId: string) => {
-    const res = await fetch(`backendUrl/toggle-like/${postId}`, {
+    const res = await fetch(`${process.env.backendUrl}/toggle-like/${postId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -75,13 +75,16 @@ const Home = () => {
   };
 
   const followUser = async (followedUserId: string) => {
-    const res = await fetch(`backendUrl/follow-toggle/${followedUserId}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${process.env.backendUrl}/follow-toggle/${followedUserId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (res.ok) {
       toast.success("Success");
       await getPost();

@@ -31,11 +31,14 @@ const Page = () => {
   };
 
   const getUser = async () => {
-    const response = await fetch(`backendUrl/users/${searchVal}`, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.backendUrl}/users/${searchVal}`,
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const users = await response.json();
     setUser(users);
   };

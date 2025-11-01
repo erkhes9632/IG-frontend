@@ -23,7 +23,7 @@ export default function PostCommentsPage() {
 
   const getComments = async () => {
     try {
-      const response = await fetch(`backendUrl/get/${postId}`, {
+      const response = await fetch(`${process.env.backendUrl}/get/${postId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ export default function PostCommentsPage() {
   };
 
   const createComment = async () => {
-    const res = await fetch("backendUrl/create", {
+    const res = await fetch(`${process.env.backendUrl}/create`, {
       method: "POST",
 
       headers: {

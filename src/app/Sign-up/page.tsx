@@ -26,7 +26,7 @@ const Page = () => {
   });
 
   const LOGDOLT = async (item: InputType) => {
-    const response = await fetch("backendUrl/sign-up", {
+    const response = await fetch(`${process.env.backendUrl}/sign-up`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

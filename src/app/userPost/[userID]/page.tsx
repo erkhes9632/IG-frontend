@@ -49,7 +49,7 @@ export default function OtherUserProfilePage() {
   const goTo = (path: string) => push(path);
 
   const fetchUserInfo = async () => {
-    const res = await fetch(`backendUrl/user/${userId}`, {
+    const res = await fetch(`${process.env.backendUrl}/user/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -57,7 +57,7 @@ export default function OtherUserProfilePage() {
   };
 
   const fetchUserPosts = async () => {
-    const res = await fetch(`backendUrl/userpost/${userId}`, {
+    const res = await fetch(`${process.env.backendUrl}/userpost/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -72,7 +72,7 @@ export default function OtherUserProfilePage() {
   }, [userId, token]);
 
   const postLike = async (postId: string) => {
-    const res = await fetch(`backendUrl/toggle-like/${postId}`, {
+    const res = await fetch(`${process.env.backendUrl}/toggle-like/${postId}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -85,13 +85,16 @@ export default function OtherUserProfilePage() {
   };
 
   const followUser = async (followedUserId: string) => {
-    const res = await fetch(`backendUrl/follow-toggle/${followedUserId}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${process.env.backendUrl}/follow-toggle/${followedUserId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (res.ok) {
       toast.success("success");
       await fetchUserPosts(), fetchUserInfo;
