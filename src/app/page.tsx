@@ -155,7 +155,7 @@ const Home = () => {
                       <img
                         src={img}
                         alt={`Post image ${i + 1}`}
-                        className="w-full h-[400px] object-cover rounded-xl transition-transform duration-500 hover:scale-105"
+                        className="w-full h-[400px] object-cover rounded-xl transition-transform duration-500"
                       />
                     </CarouselItem>
                   ))}
