@@ -17,7 +17,7 @@ const Page = () => {
   const [user, setUser] = useState<User[]>([]);
 
   const gopage2 = () => {
-    push("/create");
+    push("/Create");
   };
 
   const gopage3 = () => {
