@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { User, useUser } from "@/providers/AuthProvider";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type PostType = {
   _id: string;
@@ -19,7 +20,7 @@ type PostType = {
 };
 
 const Page = () => {
-  const { myUser, token } = useUser();
+  const { myUser, setMyUser, setToken, token } = useUser();
   const [posts, setPosts] = useState<PostType[]>([]);
   const userID = myUser?._id;
 
@@ -59,6 +60,13 @@ const Page = () => {
     }
   };
 
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setMyUser(null);
+    toast.success("Success");
+  };
+
   useEffect(() => {
     if (!myUser) {
       push("/Log-in");
@@ -79,8 +87,14 @@ const Page = () => {
             <h2 className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               {myUser?.username}
             </h2>
-            <button className="mt-4 px-6 py-2 border border-indigo-500 text-indigo-600 font-semibold rounded-md hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white shadow-sm transition-all duration-300">
+            <button className="mt-4 px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold rounded-md shadow-sm hover:opacity-90 transition-all duration-300">
               Edit Profile
+            </button>
+            <button
+              onClick={logOut}
+              className="mt-4 px-6 py-2 border border-red-400 text-red-500 font-semibold rounded-md hover:bg-red-50 shadow-sm transition-all duration-200"
+            >
+              Log out
             </button>
 
             <div className="flex justify-center sm:justify-start gap-12 mt-6 text-gray-700 font-medium">
