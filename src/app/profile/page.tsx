@@ -79,10 +79,23 @@ const Page = () => {
     <div className="min-h-screen flex flex-col  bg-gradient-to-b from-blue-50 via-indigo-50 to-purple-100">
       <div className="max-w-4xl mx-auto px-6 pb-24 pt-8 animate-fadeIn">
         <div className="flex flex-col sm:flex-row items-center sm:items-start py-8 gap-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-indigo-200 transition-all hover:shadow-xl hover:bg-white/90">
-          <img
-            src={myUser?.profilePicture}
-            className="w-32 h-32 rounded-full object-cover ring-4 ring-indigo-400 shadow-md hover:scale-105 transition-transform duration-300"
-          />
+          {myUser?.profilePicture ? (
+            <div className="relative w-32 h-32 group">
+              <img
+                src={myUser.profilePicture}
+                alt={myUser.username}
+                className="w-full h-full rounded-full object-cover ring-4 ring-indigo-400 shadow-lg transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 rounded-full bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white text-sm font-semibold">View</span>
+              </div>
+            </div>
+          ) : (
+            <div className="w-32 h-32 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 text-3xl font-bold ring-4 ring-indigo-400 shadow-lg hover:scale-105 transition-transform duration-300">
+              {myUser?.username?.[0].toUpperCase()}
+            </div>
+          )}
+
           <div className="flex-1 text-center sm:text-left">
             <h2 className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               {myUser?.username}

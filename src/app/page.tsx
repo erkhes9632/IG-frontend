@@ -115,12 +115,18 @@ const Home = () => {
             className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition duration-300 ease-in-out hover:shadow-lg"
           >
             <div className="flex items-center relative gap-3 px-4 py-3">
-              <img
-                className="w-10 h-10 rounded-full bg-gray-300 object-cover"
-                src={
-                  post.user.profilePicture || "https://via.placeholder.com/40"
-                }
-              />
+              {post.user.profilePicture ? (
+                <img
+                  src={post.user.profilePicture}
+                  alt={post.user.username}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-gray-400 text-white flex items-center justify-center font-bold text-lg">
+                  {post.user.username?.[0].toUpperCase()}
+                </div>
+              )}
+
               <span
                 onClick={() => push(`/users/${post.user._id}`)}
                 className="text-sm font-medium text-gray-800 cursor-pointer hover:underline"

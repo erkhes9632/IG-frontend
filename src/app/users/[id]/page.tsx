@@ -82,14 +82,22 @@ export default function OtherUserProfilePage() {
     <div className="max-w-4xl mx-auto px-6 pb-24">
       <div className="flex flex-col sm:flex-row items-center sm:items-start py-8 gap-6 bg-white rounded-lg shadow-md border border-gray-200 mt-6">
         {profileUser?.profilePicture ? (
-          <img
-            src={profileUser.profilePicture}
-            alt="Profile"
-            className="w-28 h-28 rounded-full object-cover ring-4 ring-blue-400 transition-transform hover:scale-105"
-          />
+          <div className="relative w-32 h-32 group">
+            <img
+              src={profileUser.profilePicture}
+              alt={profileUser.username}
+              className="w-full h-full rounded-full object-cover ring-4 ring-indigo-400 shadow-lg transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 rounded-full bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <span className="text-white text-sm font-semibold">View</span>
+            </div>
+          </div>
         ) : (
-          <div className="w-28 h-28 rounded-full bg-gray-300 ring-4 ring-gray-200" />
+          <div className="w-32 h-32 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 text-3xl font-bold ring-4 ring-indigo-400 shadow-lg hover:scale-105 transition-transform duration-300">
+            {profileUser?.username?.[0].toUpperCase()}
+          </div>
         )}
+
         <div className="flex-1 text-center sm:text-left">
           <h2 className="text-3xl font-extrabold tracking-wide text-gray-900">
             {profileUser?.username}

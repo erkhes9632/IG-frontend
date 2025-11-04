@@ -121,16 +121,29 @@ export default function OtherUserProfilePage() {
             className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden transition duration-300 ease-in-out hover:shadow-lg"
           >
             <div className="flex items-center relative gap-3 px-4 py-3">
-              <div className="w-10 h-10 rounded-full bg-gray-300">
-                <img
-                  className="w-10 h-10 rounded-full bg-gray-300"
-                  src={profileUser?.profilePicture}
-                />
-              </div>
+              {profileUser?.profilePicture ? (
+                <div className="relative w-10 h-10 group">
+                  <img
+                    src={profileUser.profilePicture}
+                    alt={profileUser.username}
+                    className="w-full h-full rounded-full object-cover ring-2 ring-indigo-400 shadow-md transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 rounded-full bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                    <span className="text-white text-xs font-semibold">
+                      View
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-gray-400 text-white flex items-center justify-center font-bold text-sm ring-2 ring-indigo-400 shadow-md">
+                  {profileUser?.username?.[0].toUpperCase()}
+                </div>
+              )}
 
               <span className="text-sm font-medium text-gray-800">
                 {profileUser?.username}
               </span>
+
               <div className="absolute top-2 right-2">
                 {profileUser?.followers?.includes(ID) ? (
                   <button
