@@ -118,7 +118,7 @@ const Page = () => {
           Explore AI Generated Images
         </label>
         <p className="text-sm text-gray-500 mb-3">
-          Describe what’s on your mind — be creative for the best results!
+          Describe what is on your mind — be creative for the best results!
         </p>
 
         <textarea
